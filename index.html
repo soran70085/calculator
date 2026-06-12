@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>UltraCalc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="calc.css"/>
+</head>
+<body>
+<div class="shell">
+
+  <aside class="side-panel" id="sidePanel">
+    <div class="panel-tabs">
+      <button class="ptab active" data-tab="history">履歴</button>
+      <button class="ptab" data-tab="memory">メモリ</button>
+      <button class="ptab" data-tab="conv">進数</button>
+    </div>
+
+    <div class="tab-content active" id="tab-history">
+      <div class="tab-toolbar">
+        <span class="tab-label">計算履歴</span>
+        <button class="toolbar-btn" id="clearHistory">CLR</button>
+      </div>
+      <ul class="hist-list" id="histList">
+        <li class="empty-note">履歴なし</li>
+      </ul>
+    </div>
+
+    <div class="tab-content" id="tab-memory">
+      <div class="tab-toolbar">
+        <span class="tab-label">メモリスロット</span>
+        <button class="toolbar-btn" id="clearAllMem">CLR</button>
+      </div>
+      <div class="mem-slots" id="memSlots">
+        <div class="mem-row" data-slot="A"><span class="slot-name">A</span><span class="slot-val" id="slotA">—</span><div class="slot-btns"><button class="s-btn" data-op="mstore" data-slot="A">STO</button><button class="s-btn" data-op="mrecall" data-slot="A">RCL</button></div></div>
+        <div class="mem-row" data-slot="B"><span class="slot-name">B</span><span class="slot-val" id="slotB">—</span><div class="slot-btns"><button class="s-btn" data-op="mstore" data-slot="B">STO</button><button class="s-btn" data-op="mrecall" data-slot="B">RCL</button></div></div>
+        <div class="mem-row" data-slot="C"><span class="slot-name">C</span><span class="slot-val" id="slotC">—</span><div class="slot-btns"><button class="s-btn" data-op="mstore" data-slot="C">STO</button><button class="s-btn" data-op="mrecall" data-slot="C">RCL</button></div></div>
+        <div class="mem-row" data-slot="D"><span class="slot-name">D</span><span class="slot-val" id="slotD">—</span><div class="slot-btns"><button class="s-btn" data-op="mstore" data-slot="D">STO</button><button class="s-btn" data-op="mrecall" data-slot="D">RCL</button></div></div>
+        <div class="mem-row" data-slot="E"><span class="slot-name">E</span><span class="slot-val" id="slotE">—</span><div class="slot-btns"><button class="s-btn" data-op="mstore" data-slot="E">STO</button><button class="s-btn" data-op="mrecall" data-slot="E">RCL</button></div></div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-conv">
+      <div class="tab-toolbar">
+        <span class="tab-label">進数変換</span>
+      </div>
+      <div class="conv-display">
+        <div class="conv-row"><span class="conv-base">DEC</span><span class="conv-val" id="convDec">0</span></div>
+        <div class="conv-row"><span class="conv-base">HEX</span><span class="conv-val" id="convHex">0</span></div>
+        <div class="conv-row"><span class="conv-base">OCT</span><span class="conv-val" id="convOct">0</span></div>
+        <div class="conv-row"><span class="conv-base">BIN</span><span class="conv-val" id="convBin">0</span></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="calc">
+    <header class="calc-header">
+      <div class="brand-block">
+        <span class="brand-name">ULTRA</span><span class="brand-sub">CALC</span>
+      </div>
+      <div class="header-right">
+        <div class="mode-group">
+          <button class="mode-pill active" data-mode="deg">DEG</button>
+          <button class="mode-pill" data-mode="rad">RAD</button>
+          <button class="mode-pill" data-mode="grad">GRA</button>
+        </div>
+        <button class="panel-toggle" id="panelToggle">⊞</button>
+      </div>
+    </header>
+
+    <div class="display-wrap">
+      <div class="display-expr" id="dispExpr">&nbsp;</div>
+      <div class="display-main" id="dispMain">0</div>
+      <div class="display-footer">
+        <span class="d-ans" id="dAns"></span>
+        <span class="d-paren" id="dParen"></span>
+      </div>
+    </div>
+
+    <div class="grid" id="btnGrid">
+
+      <button class="b b-fn"  data-a="sinh">sinh</button>
+      <button class="b b-fn"  data-a="cosh">cosh</button>
+      <button class="b b-fn"  data-a="tanh">tanh</button>
+      <button class="b b-fn"  data-a="asinh">sinh⁻¹</button>
+      <button class="b b-fn"  data-a="acosh">cosh⁻¹</button>
+      <button class="b b-fn"  data-a="atanh">tanh⁻¹</button>
+
+      <button class="b b-fn"  data-a="sin">sin</button>
+      <button class="b b-fn"  data-a="cos">cos</button>
+      <button class="b b-fn"  data-a="tan">tan</button>
+      <button class="b b-fn"  data-a="asin">sin⁻¹</button>
+      <button class="b b-fn"  data-a="acos">cos⁻¹</button>
+      <button class="b b-fn"  data-a="atan">tan⁻¹</button>
+
+      <button class="b b-fn"  data-a="log">log₁₀</button>
+      <button class="b b-fn"  data-a="ln">ln</button>
+      <button class="b b-fn"  data-a="log2">log₂</button>
+      <button class="b b-fn"  data-a="pow10">10ˣ</button>
+      <button class="b b-fn"  data-a="exp">eˣ</button>
+      <button class="b b-fn"  data-a="pow2">2ˣ</button>
+
+      <button class="b b-fn"  data-a="sqrt">√x</button>
+      <button class="b b-fn"  data-a="cbrt">∛x</button>
+      <button class="b b-fn"  data-a="nthroot">ʸ√x</button>
+      <button class="b b-fn"  data-a="sq">x²</button>
+      <button class="b b-fn"  data-a="cube">x³</button>
+      <button class="b b-op"  data-a="pow">xʸ</button>
+
+      <button class="b b-fn"  data-a="fact">n!</button>
+      <button class="b b-fn"  data-a="ncr">nCr</button>
+      <button class="b b-fn"  data-a="npr">nPr</button>
+      <button class="b b-fn"  data-a="gcd">GCD</button>
+      <button class="b b-fn"  data-a="lcm">LCM</button>
+      <button class="b b-fn"  data-a="mod">mod</button>
+
+      <button class="b b-fn"  data-a="floor">⌊x⌋</button>
+      <button class="b b-fn"  data-a="ceil">⌈x⌉</button>
+      <button class="b b-fn"  data-a="round">round</button>
+      <button class="b b-fn"  data-a="abs">|x|</button>
+      <button class="b b-fn"  data-a="inv">1/x</button>
+      <button class="b b-fn"  data-a="pct">%</button>
+
+      <button class="b b-const" data-a="pi">π</button>
+      <button class="b b-const" data-a="e_c">e</button>
+      <button class="b b-const" data-a="phi">φ</button>
+      <button class="b b-const" data-a="rand">RND</button>
+      <button class="b b-fn"   data-a="ans">ANS</button>
+      <button class="b b-fn"   data-a="paren">( )</button>
+
+      <button class="b b-mem"  data-a="mplus">M+</button>
+      <button class="b b-mem"  data-a="mminus">M−</button>
+      <button class="b b-mem"  data-a="mr">MR</button>
+      <button class="b b-mem"  data-a="mc">MC</button>
+      <button class="b b-del"  data-a="del">⌫</button>
+      <button class="b b-ac"   data-a="ac">AC</button>
+
+      <button class="b b-num"  data-d="7">7</button>
+      <button class="b b-num"  data-d="8">8</button>
+      <button class="b b-num"  data-d="9">9</button>
+      <button class="b b-op"   data-a="div">÷</button>
+      <button class="b b-op"   data-a="mul">×</button>
+      <button class="b b-neg"  data-a="neg">±</button>
+
+      <button class="b b-num"  data-d="4">4</button>
+      <button class="b b-num"  data-d="5">5</button>
+      <button class="b b-num"  data-d="6">6</button>
+      <button class="b b-op"   data-a="add">+</button>
+      <button class="b b-op"   data-a="sub">−</button>
+      <button class="b b-eq"   data-a="eq" style="grid-row:span 3">=</button>
+
+      <button class="b b-num"  data-d="1">1</button>
+      <button class="b b-num"  data-d="2">2</button>
+      <button class="b b-num"  data-d="3">3</button>
+      <button class="b b-fn"   data-a="ee">EE</button>
+      <button class="b b-fn"   data-a="neg2">+/−</button>
+
+      <button class="b b-num span2" data-d="0">0</button>
+      <button class="b b-num"  data-d=".">.</button>
+      <button class="b b-op"   data-a="logbase">logᵧ</button>
+      <button class="b b-op"   data-a="atan2">atan2</button>
+
+    </div>
+  </main>
+</div>
+<script src="calc.js"></script>
+</body>
+</html>
